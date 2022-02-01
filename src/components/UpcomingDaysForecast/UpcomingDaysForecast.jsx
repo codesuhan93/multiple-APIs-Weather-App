@@ -7,14 +7,14 @@ import styles from './UpcomingDaysForecast.module.css';
 
 const UpcomingDaysForecast = ({ days }) => (
     <ul className={`${styles.weekList} d-flex justify-content-between p-0`}>
-        {days.map(day => (
+        {days?.map(day => (
             <UpcomingDaysForecastItem {...day} key={day.weekday} />
         ))}
     </ul>
 );
 
 UpcomingDaysForecast.propTypes = {
-    days: PropTypes.array.isRequired,
+    days: PropTypes.array,
 };
 
 export default UpcomingDaysForecast;

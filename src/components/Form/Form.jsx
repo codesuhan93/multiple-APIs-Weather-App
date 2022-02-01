@@ -14,11 +14,12 @@ const Form = ({ submitSearch }) => {
 
     return (
         <form onSubmit={onSubmit}>
+            <h2>Enter City Name</h2>
             <input
                 aria-label="location"
                 type="text"
                 className={`${styles.input} form-control`}
-                placeholder="Search for location"
+                placeholder="Search for Location"
                 required
                 value={location}
                 onChange={e => setLocation(e.target.value)}

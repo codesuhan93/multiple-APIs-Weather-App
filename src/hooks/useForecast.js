@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 import getCurrentDayForecast from '../helpers/getCurrentDayForecast';
@@ -13,11 +13,64 @@ const useForecast = () => {
     const [isError, setError] = useState(false);
     const [isLoading, setLoading] = useState(false);
     const [forecast, setForecast] = useState(null);
+    const [currentPositionWeather, setCurrentPositionWeather] = useState();
+
+    let long, lat;
+
+    React.useEffect(() => {
+        navigator.geolocation.getCurrentPosition(position => {
+            long = position.coords.longitude;
+            lat = position.coords.latitude;
+
+            const getCurrentPosWoeid = async function () {
+                const { data } = await axios(`${REQUEST_URL}/search/?lattlong=${lat},${long}`);
+
+                if (!data || data.length === 0) {
+                    setError('There is no such location');
+                    setLoading(false);
+                    return;
+                }
+
+                return data[0];
+            };
+
+            getCurrentPosWoeid();
+
+            const getCurrentPositionForecastData = async () => {
+                const currPlaceWoeid = await getCurrentPosWoeid();
+
+                const { data } = await axios(`${REQUEST_URL}/${currPlaceWoeid.woeid}`);
+
+                if (!data || data.length === 0) {
+                    setError('Something went wrong');
+                    setLoading(false);
+                    return;
+                }
+
+                return data;
+            };
+
+            getCurrentPositionForecastData();
+
+            const gatherCurrentLocForecastData = async data => {
+                const currPlaceWeather = await getCurrentPositionForecastData();
+
+                const currentDay = getCurrentDayForecast(
+                    currPlaceWeather.consolidated_weather[0],
+                    currPlaceWeather.title
+                );
+                const currentDayDetails = getCurrentDayDetailedForecast(currPlaceWeather.consolidated_weather[0]);
+                const upcomingDays = getUpcomingDaysForecast(currPlaceWeather.consolidated_weather);
+
+                setCurrentPositionWeather({ currentDay, currentDayDetails, upcomingDays });
+                setLoading(false);
+            };
+            gatherCurrentLocForecastData();
+        });
+    }, []);
 
     const getWoeid = async location => {
         const { data } = await axios(`${REQUEST_URL}/search`, { params: { query: location } });
-        // console.log('city name: ', location);
-        console.log('zero element: ', data[0]);
 
         if (!data || data.length === 0) {
             setError('There is no such location');
@@ -30,7 +83,7 @@ const useForecast = () => {
 
     const getForecastData = async woeid => {
         const { data } = await axios(`${REQUEST_URL}/${woeid}`);
-        console.log(data);
+
         if (!data || data.length === 0) {
             setError('Something went wrong');
             setLoading(false);
@@ -62,12 +115,7 @@ const useForecast = () => {
         gatherForecastData(data);
     };
 
-    return {
-        isError,
-        isLoading,
-        forecast,
-        submitRequest,
-    };
+    return [isError, isLoading, forecast, currentPositionWeather, submitRequest];
 };
 
 export default useForecast;

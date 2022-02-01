@@ -29,12 +29,12 @@ const CurrentDay = ({ weekday, date, location, temperature, weatherIcon, weather
 );
 
 CurrentDay.propTypes = {
-    weekday: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-    location: PropTypes.string.isRequired,
-    weatherIcon: PropTypes.string.isRequired,
-    temperature: PropTypes.number.isRequired,
-    weatherDescription: PropTypes.string.isRequired,
+    weekday: PropTypes.string,
+    date: PropTypes.string,
+    location: PropTypes.string,
+    weatherIcon: PropTypes.string,
+    temperature: PropTypes.number,
+    weatherDescription: PropTypes.string,
 };
 
 export default CurrentDay;

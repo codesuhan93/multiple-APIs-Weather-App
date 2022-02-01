@@ -1,26 +1,35 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 
 import Header from '../Header';
 import Form from '../Form';
 import Error from '../Error';
 import Loader from '../Loader';
 import Forecast from '../Forecast';
+import CurrentWeather from './CurrentWeather';
 
 import useForecast from '../../hooks/useForecast';
 
 import styles from './Page.module.css';
 
 const Page = () => {
-    const { isError, isLoading, forecast, submitRequest } = useForecast();
+    const [isError, isLoading, forecast, currentPositionWeather, submitRequest] = useForecast();
+    const [showCurrent, setShowCurrent] = useState(true);
 
     const onSubmit = value => {
         submitRequest(value);
-        // console.log('cityName: ', value);
     };
 
     return (
         <Fragment>
             <Header />
+            {/* Current Weather */}
+            {
+                <div>
+                    <CurrentWeather currentWeatherState={currentPositionWeather} />
+                </div>
+            }
+            <br />
+
             {!forecast && (
                 <div className={`${styles.box} position-relative`}>
                     {/* Form */}
@@ -31,6 +40,7 @@ const Page = () => {
                     {isLoading && <Loader />}
                 </div>
             )}
+
             {/* Forecast */}
             {forecast && <Forecast forecast={forecast} />}
         </Fragment>
