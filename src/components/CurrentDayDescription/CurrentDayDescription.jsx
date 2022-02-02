@@ -17,7 +17,7 @@ const CurrentDayDescription = ({ forecast }) => {
 };
 
 CurrentDayDescription.propTypes = {
-    forecast: PropTypes.array,
+    forecast: PropTypes.object,
 };
 
 export default CurrentDayDescription;

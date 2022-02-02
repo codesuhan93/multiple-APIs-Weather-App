@@ -18,15 +18,28 @@ const useForecast = () => {
     let long, lat;
 
     React.useEffect(() => {
-        navigator.geolocation.getCurrentPosition(position => {
-            long = position.coords.longitude;
-            lat = position.coords.latitude;
+        var options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0,
+        };
+
+        function success(pos) {
+            var crd = pos.coords;
+            lat = crd.latitude;
+            long = crd.longitude;
+            // console.log('Your current position is:');
+            // console.log(`Latitude : ${crd.latitude}`);
+            // console.log(`Longitude: ${crd.longitude}`);
+            // console.log(`More or less ${crd.accuracy} meters.`);
 
             const getCurrentPosWoeid = async function () {
-                const { data } = await axios(`${REQUEST_URL}/search/?lattlong=${lat},${long}`);
+                const { data } = await axios.get(`${REQUEST_URL}/search/?lattlong=${lat},${long}`, {
+                    timeout: 3000,
+                });
 
-                if (!data || data.length === 0) {
-                    setError('There is no such location');
+                if (!lat || !long) {
+                    setError('No GPS Support Available');
                     setLoading(false);
                     return;
                 }
@@ -66,7 +79,14 @@ const useForecast = () => {
                 setLoading(false);
             };
             gatherCurrentLocForecastData();
-        });
+        }
+
+        const errorMode = function error(err) {
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+            alert(`ERROR(${err.code}): ${err.message}`);
+        };
+
+        navigator.geolocation.getCurrentPosition(success, errorMode, options);
     }, []);
 
     const getWoeid = async location => {

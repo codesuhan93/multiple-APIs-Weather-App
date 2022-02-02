@@ -13,7 +13,6 @@ import styles from './Page.module.css';
 
 const Page = () => {
     const [isError, isLoading, forecast, currentPositionWeather, submitRequest] = useForecast();
-    const [showCurrent, setShowCurrent] = useState(true);
 
     const onSubmit = value => {
         submitRequest(value);
@@ -22,27 +21,27 @@ const Page = () => {
     return (
         <Fragment>
             <Header />
+            {/* Search Bar */}
+            <div className={`${styles.box} position-relative`}>
+                {/* Form */}
+                {!isLoading && <Form submitSearch={onSubmit} />}
+                {/* Error */}
+                {isError && <Error message={isError} />}
+                {/* Loader */}
+                {isLoading && <Loader />}
+            </div>
+            <br />
             {/* Current Weather */}
             {
                 <div>
-                    <CurrentWeather currentWeatherState={currentPositionWeather} />
+                    {forecast ? (
+                        <Forecast forecast={forecast} />
+                    ) : (
+                        <CurrentWeather currentWeatherState={currentPositionWeather} />
+                    )}
                 </div>
             }
             <br />
-
-            {!forecast && (
-                <div className={`${styles.box} position-relative`}>
-                    {/* Form */}
-                    {!isLoading && <Form submitSearch={onSubmit} />}
-                    {/* Error */}
-                    {isError && <Error message={isError} />}
-                    {/* Loader */}
-                    {isLoading && <Loader />}
-                </div>
-            )}
-
-            {/* Forecast */}
-            {forecast && <Forecast forecast={forecast} />}
         </Fragment>
     );
 };

@@ -10,7 +10,7 @@ const CurrentDay = ({ weekday, date, location, temperature, weatherIcon, weather
         <div className={styles.gradient}></div>
         <div className={`${styles.cardInner} d-flex flex-column justify-content-between pt-3 pb-2 pl-2`}>
             <div>
-                <h2 className="font-weight-bold mb-1">{weekday}</h2>
+                <h2 className="font-weight-bold mb-1">{weekday?.substring(0, 3)}</h2>
                 <p className="mb-0">{date}</p>
                 <p className="d-flex align-items-baseline font-weight-lighter mb-1">
                     <img width="10" height="15" src={locationIcon} className="mr-1" alt="location pin icon" />
