@@ -1,32 +1,37 @@
-import React from 'react';
+// import React from 'react';
 
-import Loader from '../Loader';
+// // import Loader from '../Loader';
 
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
-import { Container } from 'react-bootstrap';
+// import { Container } from 'react-bootstrap';
 
-import styles from '../Forecast';
+// import styles from '../Forecast';
 
-import Forecast from '../Forecast';
+// import Forecast from '../Forecast';
+// import useForecast from '../../hooks/useForecast';
 
-const CurrentWeather = ({ currentWeatherState, isLoading }) => {
-    console.log('currentWeatherState', currentWeatherState);
-    return (
-        <Container className={styles.box}>
-            <div className={styles.card}>
-                {currentWeatherState ? <Forecast forecast={currentWeatherState} /> : <Loader />}
-            </div>
-        </Container>
-    );
-};
+// {** No Need for this component to render seperately **}
 
-CurrentWeather.propTypes = {
-    forecast: PropTypes.shape({
-        currentDay: PropTypes.object,
-        currentDayDetails: PropTypes.array,
-        upcomingDays: PropTypes.array,
-    }),
-};
+// const CurrentWeather = ({ currentWeatherState }) => {
+//     // console.log('currentWeatherState', currentWeatherState);
+//     return (
+//         <Container className={styles.box}>
+//             <div className={styles.card}>
+//                 {/* {currentWeatherState ? <Forecast forecast={currentWeatherState} /> : <Loader />} */}
 
-export default CurrentWeather;
+//                 <Forecast forecast={currentWeatherState} />
+//             </div>
+//         </Container>
+//     );
+// };
+
+// CurrentWeather.propTypes = {
+//     forecast: PropTypes.shape({
+//         currentDay: PropTypes.object,
+//         currentDayDetails: PropTypes.array,
+//         upcomingDays: PropTypes.array,
+//     }),
+// };
+
+// export default CurrentWeather;

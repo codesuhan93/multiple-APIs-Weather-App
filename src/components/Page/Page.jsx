@@ -1,11 +1,11 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 
 import Header from '../Header';
 import Form from '../Form';
 import Error from '../Error';
 import Loader from '../Loader';
 import Forecast from '../Forecast';
-import CurrentWeather from './CurrentWeather';
+// import CurrentWeather from './CurrentWeather';
 
 import useForecast from '../../hooks/useForecast';
 
@@ -25,22 +25,16 @@ const Page = () => {
             <div className={`${styles.box} position-relative`}>
                 {/* Form */}
                 {!isLoading && <Form submitSearch={onSubmit} />}
+
                 {/* Error */}
                 {isError && <Error message={isError} />}
                 {/* Loader */}
                 {isLoading && <Loader />}
+                {/* {!isLoading && newMsg} */}
             </div>
             <br />
-            {/* Current Weather */}
-            {
-                <div>
-                    {forecast ? (
-                        <Forecast forecast={forecast} />
-                    ) : (
-                        <CurrentWeather currentWeatherState={currentPositionWeather} />
-                    )}
-                </div>
-            }
+            {/* Current Weather & City Weather */}
+            {<div>{forecast ? <Forecast forecast={forecast} /> : <Forecast forecast={currentPositionWeather} />}</div>}
             <br />
         </Fragment>
     );
