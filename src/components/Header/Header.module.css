@@ -4,8 +4,18 @@
     font-weight: 900;
     font-size: 2rem;
     z-index: 100;
+    margin-left: 10rem;
 }
 
 .light {
     font-weight: 100;
+}
+
+.section {
+    padding: 1.4rem;
+    text-align: right;
+    height: 50px;
+    font-weight: 100;
+    font-size: 1.6rem;
+    z-index: 100;
 }

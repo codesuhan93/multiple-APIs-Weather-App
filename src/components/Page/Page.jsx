@@ -13,11 +13,11 @@ import styles from './Page.module.css';
 
 const Page = () => {
     const [isError, isLoading, forecast, currentPositionWeather, submitRequest] = useForecast();
-
+    console.log('forcasting: ', forecast);
     const onSubmit = value => {
         submitRequest(value);
     };
-
+    console.log('currentPositionWeather', currentPositionWeather);
     return (
         <Fragment>
             <Header />

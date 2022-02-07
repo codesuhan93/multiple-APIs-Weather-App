@@ -1,11 +1,14 @@
 import Page from './components/Page';
+// import Page from './components/Page/Page';
+import Favorites from './components/Page/Favorites';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import clouds from './components/video/clouds.mp4';
 import './App.css';
 
 function App() {
     return (
-        <>
+        <Router>
             <div className="App">
                 <video
                     autoPlay
@@ -25,12 +28,13 @@ function App() {
                 >
                     <source src={clouds} type="video/mp4" />
                 </video>
+                <Routes>
+                    <Route path="/" element={<Page />} />
+                    <Route path="/fav" element={<Favorites />} />
+                </Routes>
+                <div id="overlay"></div>
             </div>
-            <div id="overlay"></div>
-            <div>
-                <Page />
-            </div>
-        </>
+        </Router>
     );
 }
 

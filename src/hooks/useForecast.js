@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import getCurrentDayForecast from '../helpers/getCurrentDayForecast';
@@ -15,7 +15,7 @@ const useForecast = () => {
     const [forecast, setForecast] = useState(null);
     const [currentPositionWeather, setCurrentPositionWeather] = useState();
 
-    React.useEffect(() => {
+    useEffect(() => {
         var options = {
             enableHighAccuracy: true,
             timeout: 5000,
@@ -49,6 +49,7 @@ const useForecast = () => {
                 const currPlaceWoeid = await getCurrentPosWoeid();
 
                 const { data } = await axios(`${REQUEST_URL}/${currPlaceWoeid.woeid}`);
+                // console.log('data for cuurent location: ', data);
 
                 if (!data || data.length === 0) {
                     setError('Something went wrong');
@@ -66,12 +67,18 @@ const useForecast = () => {
 
                 const currentDay = getCurrentDayForecast(
                     currPlaceWeather.consolidated_weather[0],
-                    currPlaceWeather.title
+                    currPlaceWeather.title,
+                    currPlaceWeather.woeid
                 );
                 const currentDayDetails = getCurrentDayDetailedForecast(currPlaceWeather.consolidated_weather[0]);
                 const upcomingDays = getUpcomingDaysForecast(currPlaceWeather.consolidated_weather);
 
-                setCurrentPositionWeather({ currentDay, currentDayDetails, upcomingDays });
+                setCurrentPositionWeather({
+                    currentDay,
+                    currentDayDetails,
+                    upcomingDays,
+                    woeid: currPlaceWeather.woeid,
+                });
                 setLoading(false);
             };
             gatherCurrentLocForecastData();
@@ -99,6 +106,7 @@ const useForecast = () => {
 
     const getForecastData = async woeid => {
         const { data } = await axios(`${REQUEST_URL}/${woeid}`);
+        console.log('data in hook:', data);
 
         if (!data || data.length === 0) {
             setError('Something went wrong');
@@ -110,11 +118,11 @@ const useForecast = () => {
     };
 
     const gatherForecastData = data => {
-        const currentDay = getCurrentDayForecast(data.consolidated_weather[0], data.title);
+        const currentDay = getCurrentDayForecast(data.consolidated_weather[0], data.title, data.woeid);
         const currentDayDetails = getCurrentDayDetailedForecast(data.consolidated_weather[0]);
         const upcomingDays = getUpcomingDaysForecast(data.consolidated_weather);
 
-        setForecast({ currentDay, currentDayDetails, upcomingDays });
+        setForecast({ currentDay, currentDayDetails, upcomingDays, woeid: data.woeid });
         setLoading(false);
     };
 
