@@ -23,7 +23,7 @@ const CurrentDay = ({ weekday, date, location, temperature, weatherIcon, weather
         localStorage.setItem('WOEID', JSON.stringify(favWoeid));
     };
     const isDefaultWeather = () => {
-        const favData = JSON.parse(localStorage.getItem('WOEID'));
+        const favData = JSON.parse(localStorage.getItem('WOEID')) || [];
         let result = false;
         favData.every(weatherId => {
             if (weatherId === woeid) {
