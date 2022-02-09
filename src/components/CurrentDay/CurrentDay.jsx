@@ -1,11 +1,10 @@
-import { React, useEffect } from 'react';
+import { React } from 'react';
 import PropTypes from 'prop-types';
-// import heart from '../video/heart.svg';
+
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
 
 import locationIcon from './assets/location-pin.png';
 import styles from './CurrentDay.module.css';
-import { cleanup } from '@testing-library/react';
 
 const CurrentDay = ({ weekday, date, location, temperature, weatherIcon, weatherDescription, woeid }) => {
     const likeButton = () => {
@@ -15,8 +14,14 @@ const CurrentDay = ({ weekday, date, location, temperature, weatherIcon, weather
 
         if (!favWoeid.includes(woeid)) {
             favWoeid.push(woeid);
+            console.log('button pressed to add a fav city');
+            alert('item added to fav, go to favorites');
+            // window.location.reload();
         } else {
             favWoeid = favWoeid.filter(item => item !== woeid);
+            console.log('button pressed to remove a fav city');
+            // alert('item removed, please refresh!');
+            window.location.reload();
         }
 
         localStorage.setItem('WOEID', JSON.stringify(favWoeid));

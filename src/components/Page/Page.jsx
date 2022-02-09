@@ -33,6 +33,11 @@ const Page = () => {
                 {/* {!isLoading && newMsg} */}
             </div>
             <br />
+            {/* {Add to Fav Button} */}
+            {/* <div className="nav justify-content-center">
+                <button className={styles.buttonz}>add/remove</button>
+            </div> */}
+
             {/* Current Weather & City Weather */}
             {<div>{forecast ? <Forecast forecast={forecast} /> : <Forecast forecast={currentPositionWeather} />}</div>}
             <br />
