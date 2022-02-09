@@ -65,14 +65,13 @@ function Favorites() {
             </div>
             <br />
             <div>
-                {apiData ? (
+                {apiData &&
                     apiData.map(item => {
                         item.isDefault = false;
                         return <Forecast forecast={item} key={item.woeid} />;
-                    })
-                ) : (
-                    <Loader />
-                )}
+                    })}
+                {/* {apiData.length === 0 && <Loader />} */}
+                {apiData.length === 0 && <p className={styles.headingz}>No Data to Display</p>}
             </div>
         </>
     );

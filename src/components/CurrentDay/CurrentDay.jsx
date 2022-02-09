@@ -1,4 +1,4 @@
-import { React } from 'react';
+import { React, useEffect } from 'react';
 import PropTypes from 'prop-types';
 // import heart from '../video/heart.svg';
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
@@ -7,7 +7,8 @@ import locationIcon from './assets/location-pin.png';
 import styles from './CurrentDay.module.css';
 
 const CurrentDay = ({ weekday, date, location, temperature, weatherIcon, weatherDescription, woeid, isDefault }) => {
-    let toggleHeart = true;
+    useEffect(() => {}, []);
+
     const likeButton = () => {
         var favWoeid = [woeid];
 
@@ -16,11 +17,7 @@ const CurrentDay = ({ weekday, date, location, temperature, weatherIcon, weather
         if (!favWoeid.includes(woeid)) {
             favWoeid.push(woeid);
         } else {
-            // console.log('in else lock');
-
             favWoeid = favWoeid.filter(item => item !== woeid);
-
-            // console.log(favWoeid);
         }
 
         localStorage.setItem('WOEID', JSON.stringify(favWoeid));
@@ -29,7 +26,7 @@ const CurrentDay = ({ weekday, date, location, temperature, weatherIcon, weather
         const favData = JSON.parse(localStorage.getItem('WOEID'));
         let result = false;
         favData.every(weatherId => {
-            if (weatherId == woeid) {
+            if (weatherId === woeid) {
                 result = true;
                 return false;
             }
@@ -38,6 +35,7 @@ const CurrentDay = ({ weekday, date, location, temperature, weatherIcon, weather
 
         return result;
     };
+
     return (
         <div className="d-flex">
             <div className={styles.img}></div>
