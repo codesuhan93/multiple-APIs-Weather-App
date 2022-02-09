@@ -5,10 +5,9 @@ import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
 
 import locationIcon from './assets/location-pin.png';
 import styles from './CurrentDay.module.css';
+import { cleanup } from '@testing-library/react';
 
-const CurrentDay = ({ weekday, date, location, temperature, weatherIcon, weatherDescription, woeid, isDefault }) => {
-    useEffect(() => {}, []);
-
+const CurrentDay = ({ weekday, date, location, temperature, weatherIcon, weatherDescription, woeid }) => {
     const likeButton = () => {
         var favWoeid = [woeid];
 
@@ -22,8 +21,9 @@ const CurrentDay = ({ weekday, date, location, temperature, weatherIcon, weather
 
         localStorage.setItem('WOEID', JSON.stringify(favWoeid));
     };
+
     const isDefaultWeather = () => {
-        const favData = JSON.parse(localStorage.getItem('WOEID'));
+        const favData = JSON.parse(localStorage.getItem('WOEID')) || [];
         let result = false;
         favData.every(weatherId => {
             if (weatherId === woeid) {
@@ -42,12 +42,12 @@ const CurrentDay = ({ weekday, date, location, temperature, weatherIcon, weather
             <div className={styles.gradient}></div>
             <div className={`${styles.cardInner} d-flex flex-column justify-content-between pt-3 pb-2 pl-2`}>
                 <div>
+                    <div>
+                        {!isDefaultWeather() && <BsHeart size="30px" alt="fav icon" onClick={likeButton} />}
+                        {isDefaultWeather() && <BsFillHeartFill size="30px" onClick={likeButton} alt="fav icon" />}
+                    </div>
                     <div className="d-flex align-items-baseline font-weight-lighter mb-1">
                         <h2 className="font-weight-bold mb-1">{weekday?.substring(0, 3)}</h2>
-                        {/* <img width="50" height="25" src={heart} className="mr-1" alt="fav icon" onClick={likeButton} /> */}
-
-                        {!isDefaultWeather() && <BsHeart alt="fav icon" onClick={likeButton} />}
-                        {isDefaultWeather() && <BsFillHeartFill onClick={likeButton} alt="fav icon" />}
                     </div>
 
                     <p className="mb-0">{date}</p>

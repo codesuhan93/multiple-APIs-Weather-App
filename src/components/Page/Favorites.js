@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react';
-import Loader from '../Loader';
+// import Loader from '../Loader';
 import Forecast from '../Forecast';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
