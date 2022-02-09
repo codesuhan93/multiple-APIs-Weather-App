@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react';
-// import Loader from '../Loader';
+import Loader from '../Loader';
 import Forecast from '../Forecast';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +18,7 @@ const REQUEST_URL = `${CROSS_DOMAIN}/${BASE_URL}`;
 function Favorites() {
     var [favArray, setFavArray] = useState(() => JSON.parse(localStorage.getItem('WOEID')));
     const [apiData, setApiData] = useState([]);
-
+    console.log('apiData: ', apiData);
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -65,10 +65,14 @@ function Favorites() {
             </div>
             <br />
             <div>
-                {apiData &&
+                {apiData ? (
                     apiData.map(item => {
+                        item.isDefault = false;
                         return <Forecast forecast={item} key={item.woeid} />;
-                    })}
+                    })
+                ) : (
+                    <Loader />
+                )}
             </div>
         </>
     );
