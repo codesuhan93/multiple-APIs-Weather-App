@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-// import heart from '../video/heart.svg';
+
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
 
 import locationIcon from './assets/location-pin.png';
