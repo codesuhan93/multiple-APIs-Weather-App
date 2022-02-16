@@ -1,10 +1,9 @@
 import { React, useEffect, useState } from 'react';
-import Loader from '../Loader';
+
 import Forecast from '../Forecast';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-// import styles from '../Header/Header';
-// import styles from '../Forecast/Forecast';
+
 import styles from './Favorites.module.css';
 
 import getCurrentDayForecast from '../../helpers/getCurrentDayForecast';
@@ -16,12 +15,29 @@ const CROSS_DOMAIN = 'https://the-ultimate-api-challenge.herokuapp.com';
 const REQUEST_URL = `${CROSS_DOMAIN}/${BASE_URL}`;
 
 function Favorites() {
-    var [favArray, setFavArray] = useState(() => JSON.parse(localStorage.getItem('WOEID')));
+    var [favArray, setFavArray] = useState(null);
     const [apiData, setApiData] = useState([]);
-    console.log('apiData: ', apiData);
-    let navigate = useNavigate();
+    // const [renderFav, setRenderFav] = useState(false);
 
     useEffect(() => {
+        async function init() {
+            const data = await localStorage.getItem('WOEID');
+            setFavArray(JSON.parse(data));
+        }
+        init();
+    }, []);
+
+    // console.log('Favorites reRender', renderFav);
+
+    // console.log('apiData: ', apiData);
+    let navigate = useNavigate();
+
+    // const handleRender = e => {
+    //     setRenderFav(true);
+    // };
+
+    useEffect(() => {
+        console.log('useEffect called 2');
         favArray?.forEach(id => {
             const getFevApisData = async () => {
                 const { data } = await axios.get(`${REQUEST_URL}/${id}`);
@@ -66,11 +82,10 @@ function Favorites() {
             <br />
             <div>
                 {apiData &&
-                    apiData.map(item => {
-                        item.isDefault = false;
-                        return <Forecast forecast={item} key={item.woeid} />;
+                    apiData.map((item, index) => {
+                        return <Forecast forecast={item} key={index} />;
                     })}
-                {/* {apiData.length === 0 && <Loader />} */}
+
                 {apiData.length === 0 && <p className={styles.headingz}>No Data to Display</p>}
             </div>
         </>

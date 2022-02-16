@@ -12,6 +12,7 @@ import styles from './Forecast.module.css';
 
 const Forecast = ({ forecast }) => {
     // console.log('forecast shown in Forecast Component: ', forecast);
+    // console.log('parent hadler working:', pHandlerRender);
 
     return (
         <>
@@ -28,6 +29,7 @@ const Forecast = ({ forecast }) => {
                     </Col>
                 </Row>
             </Container>
+            <br />
         </>
     );
 };

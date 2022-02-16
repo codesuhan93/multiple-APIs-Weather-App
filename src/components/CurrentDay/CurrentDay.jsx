@@ -1,4 +1,4 @@
-import { React, useEffect } from 'react';
+import { React, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 // import heart from '../video/heart.svg';
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
@@ -6,22 +6,26 @@ import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
 import locationIcon from './assets/location-pin.png';
 import styles from './CurrentDay.module.css';
 
-const CurrentDay = ({ weekday, date, location, temperature, weatherIcon, weatherDescription, woeid, isDefault }) => {
-    useEffect(() => {}, []);
+const CurrentDay = ({ weekday, date, location, temperature, weatherIcon, weatherDescription, woeid }) => {
+    const [is_update_component, setUpdateComponent] = useState(false);
 
-    const likeButton = () => {
-        var favWoeid = [woeid];
-
-        favWoeid = JSON.parse(localStorage.getItem('WOEID')) || [];
-
-        if (!favWoeid.includes(woeid)) {
-            favWoeid.push(woeid);
+    const likeButton = e => {
+        let favWoeidStorage = JSON.parse(localStorage.getItem('WOEID')) || [];
+        console.log('favWoeidStorage from currentday', favWoeidStorage);
+        console.log('localStorage change in currentDay');
+        if (!favWoeidStorage.includes(woeid)) {
+            favWoeidStorage.push(woeid);
+            // pHandlerRender(false);
         } else {
-            favWoeid = favWoeid.filter(item => item !== woeid);
+            favWoeidStorage = favWoeidStorage.filter(item => item !== woeid);
+            // pHandlerRender(true);
+            console.log('pHandlerRender called');
         }
 
-        localStorage.setItem('WOEID', JSON.stringify(favWoeid));
+        setUpdateComponent(!is_update_component);
+        localStorage.setItem('WOEID', JSON.stringify(favWoeidStorage));
     };
+
     const isDefaultWeather = () => {
         const favData = JSON.parse(localStorage.getItem('WOEID')) || [];
         let result = false;
@@ -36,18 +40,27 @@ const CurrentDay = ({ weekday, date, location, temperature, weatherIcon, weather
         return result;
     };
 
+    const renderHeartIcon = () => {
+        let heart_icon_html = <></>;
+
+        if (isDefaultWeather()) {
+            heart_icon_html = <BsFillHeartFill size="30px" onClick={likeButton} alt="fav icon" />;
+        } else {
+            heart_icon_html = <BsHeart size="30px" alt="fav icon" onClick={likeButton} />;
+        }
+
+        return heart_icon_html;
+    };
+
     return (
         <div className="d-flex">
             <div className={styles.img}></div>
             <div className={styles.gradient}></div>
             <div className={`${styles.cardInner} d-flex flex-column justify-content-between pt-3 pb-2 pl-2`}>
                 <div>
+                    {renderHeartIcon(likeButton)}
                     <div className="d-flex align-items-baseline font-weight-lighter mb-1">
                         <h2 className="font-weight-bold mb-1">{weekday?.substring(0, 3)}</h2>
-                        {/* <img width="50" height="25" src={heart} className="mr-1" alt="fav icon" onClick={likeButton} /> */}
-
-                        {!isDefaultWeather() && <BsHeart alt="fav icon" onClick={likeButton} />}
-                        {isDefaultWeather() && <BsFillHeartFill onClick={likeButton} alt="fav icon" />}
                     </div>
 
                     <p className="mb-0">{date}</p>

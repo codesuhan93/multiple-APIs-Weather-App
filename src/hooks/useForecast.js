@@ -15,6 +15,8 @@ const useForecast = () => {
     const [forecast, setForecast] = useState(null);
     const [currentPositionWeather, setCurrentPositionWeather] = useState();
 
+    // const [renderFav, setRenderFav] = useState(false);
+
     useEffect(() => {
         var options = {
             enableHighAccuracy: true,
@@ -26,10 +28,6 @@ const useForecast = () => {
             var crd = pos.coords;
             var lat = crd.latitude;
             var long = crd.longitude;
-            // console.log('Your current position is:');
-            // console.log(`Latitude : ${crd.latitude}`);
-            // console.log(`Longitude: ${crd.longitude}`);
-            // console.log(`More or less ${crd.accuracy} meters.`);
 
             const getCurrentPosWoeid = async function () {
                 const { data } = await axios.get(`${REQUEST_URL}/search/?lattlong=${lat},${long}`);
