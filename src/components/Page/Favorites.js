@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './Favorites.module.css';
+import useForecast from '../../hooks/useForecast';
 
 import getCurrentDayForecast from '../../helpers/getCurrentDayForecast';
 import getCurrentDayDetailedForecast from '../../helpers/getCurrentDayDetailedForecast';
@@ -13,10 +14,11 @@ const BASE_URL = 'https://www.metaweather.com/api/location';
 const CROSS_DOMAIN = 'https://the-ultimate-api-challenge.herokuapp.com';
 const REQUEST_URL = `${CROSS_DOMAIN}/${BASE_URL}`;
 
-function Favorites() {
+function Favorites({ likeButton, newState }) {
     var [favArray, setFavArray] = useState(null);
     const [apiData, setApiData] = useState([]);
-    // const [renderFav, setRenderFav] = useState(false);
+
+    console.log('newState', newState);
 
     useEffect(() => {
         async function init() {
@@ -24,19 +26,11 @@ function Favorites() {
             setFavArray(JSON.parse(data));
         }
         init();
-    }, []);
+    }, [newState]);
 
-    // console.log('Favorites reRender', renderFav);
-
-    // console.log('apiData: ', apiData);
     let navigate = useNavigate();
 
-    // const handleRender = e => {
-    //     setRenderFav(true);
-    // };
-
     useEffect(() => {
-        console.log('useEffect called 2');
         favArray?.forEach(id => {
             const getFevApisData = async () => {
                 const { data } = await axios.get(`${REQUEST_URL}/${id}`);
@@ -82,7 +76,7 @@ function Favorites() {
             <div>
                 {apiData &&
                     apiData.map((item, index) => {
-                        return <Forecast forecast={item} key={index} />;
+                        return <Forecast key={index} forecast={item} likeButton={likeButton} />;
                     })}
 
                 {apiData.length === 0 && <p className={styles.headingz}>No Data to Display</p>}

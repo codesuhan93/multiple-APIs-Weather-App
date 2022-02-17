@@ -11,13 +11,13 @@ import useForecast from '../../hooks/useForecast';
 
 import styles from './Page.module.css';
 
-const Page = () => {
+const Page = ({ likeButton }) => {
     const [isError, isLoading, forecast, currentPositionWeather, submitRequest] = useForecast();
-    console.log('forcasting: ', forecast);
+
     const onSubmit = value => {
         submitRequest(value);
     };
-    console.log('currentPositionWeather', currentPositionWeather);
+
     return (
         <Fragment>
             <Header />
@@ -39,7 +39,15 @@ const Page = () => {
             </div> */}
 
             {/* Current Weather & City Weather */}
-            {<div>{forecast ? <Forecast forecast={forecast} /> : <Forecast forecast={currentPositionWeather} />}</div>}
+            {
+                <div>
+                    {forecast ? (
+                        <Forecast forecast={forecast} likeButton={likeButton} />
+                    ) : (
+                        <Forecast forecast={currentPositionWeather} likeButton={likeButton} />
+                    )}
+                </div>
+            }
             <br />
         </Fragment>
     );

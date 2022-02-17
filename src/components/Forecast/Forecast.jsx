@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import { Container, Row, Col } from 'react-bootstrap';
@@ -10,17 +10,14 @@ import UpcomingDaysForecast from '../UpcomingDaysForecast';
 
 import styles from './Forecast.module.css';
 
-const Forecast = ({ forecast }) => {
-    // console.log('forecast shown in Forecast Component: ', forecast);
-    // console.log('parent hadler working:', pHandlerRender);
-
+const Forecast = ({ forecast, likeButton }) => {
     return (
         <>
             <Container className={styles.box}>
                 <Row>
                     <Col xs={12} md={4}>
                         <div className={styles.card}>
-                            <CurrentDay {...forecast?.currentDay} />
+                            <CurrentDay likeButton={likeButton} {...forecast?.currentDay} />
                         </div>
                     </Col>
                     <Col xs={12} md={8} className="d-flex flex-column justify-content-between">

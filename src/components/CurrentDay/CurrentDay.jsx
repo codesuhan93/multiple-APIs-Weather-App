@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import { React, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
@@ -6,26 +6,7 @@ import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
 import locationIcon from './assets/location-pin.png';
 import styles from './CurrentDay.module.css';
 
-const CurrentDay = ({ weekday, date, location, temperature, weatherIcon, weatherDescription, woeid }) => {
-    const [is_update_component, setUpdateComponent] = useState(false);
-
-    const likeButton = e => {
-        let favWoeidStorage = JSON.parse(localStorage.getItem('WOEID')) || [];
-        console.log('favWoeidStorage from currentday', favWoeidStorage);
-        console.log('localStorage change in currentDay');
-        if (!favWoeidStorage.includes(woeid)) {
-            favWoeidStorage.push(woeid);
-            // pHandlerRender(false);
-        } else {
-            favWoeidStorage = favWoeidStorage.filter(item => item !== woeid);
-            // pHandlerRender(true);
-            console.log('pHandlerRender called');
-        }
-
-        setUpdateComponent(!is_update_component);
-        localStorage.setItem('WOEID', JSON.stringify(favWoeidStorage));
-    };
-
+const CurrentDay = ({ likeButton, weekday, date, location, temperature, weatherIcon, weatherDescription, woeid }) => {
     const isDefaultWeather = () => {
         const favData = JSON.parse(localStorage.getItem('WOEID')) || [];
         let result = false;

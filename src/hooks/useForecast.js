@@ -14,6 +14,7 @@ const useForecast = () => {
     const [isLoading, setLoading] = useState(false);
     const [forecast, setForecast] = useState(null);
     const [currentPositionWeather, setCurrentPositionWeather] = useState();
+    // const [is_update_component, setUpdateComponent] = useState(false);
 
     // const [renderFav, setRenderFav] = useState(false);
 
